@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Search Friends View Controller-->
         <scene sceneID="tFB-qy-o3J">
             <objects>
-                <viewController id="aYE-4f-RLv" sceneMemberID="viewController">
+                <viewController id="aYE-4f-RLv" customClass="SearchFriendsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="shD-QO-Ur7"/>
                         <viewControllerLayoutGuide type="bottom" id="bMa-iu-fcs"/>
@@ -54,6 +54,7 @@
                     </tabBarItem>
                     <connections>
                         <outlet property="searchDisplayController" destination="yEB-U0-Ph7" id="adp-F2-SdT"/>
+                        <outlet property="tableView" destination="hW8-jg-cxz" id="d0N-nP-beO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H5n-fr-uJa" userLabel="First Responder" sceneMemberID="firstResponder"/>
