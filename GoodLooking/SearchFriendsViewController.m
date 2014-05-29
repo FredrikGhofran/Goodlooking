@@ -7,9 +7,14 @@
 //
 
 #import "SearchFriendsViewController.h"
-
+#import "LoggedInUser.h"
+#import "SearchFriendsTableViewCell.h"
 @interface SearchFriendsViewController ()
-
+@property(nonatomic)IGUser *myUser;
+@property(nonatomic)NSMutableArray *followers;
+@property(nonatomic)NSMutableArray *followersName;
+@property(nonatomic)NSMutableDictionary *images;
+@property(nonatomic)NSArray *searchResult;
 @end
 
 @implementation SearchFriendsViewController
@@ -18,7 +23,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+
     }
     return self;
 }
@@ -26,24 +31,99 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.followersName =[[NSMutableArray alloc]init];
+    self.myUser = [LoggedInUser myUser];
+    self.images = [[NSMutableDictionary alloc]init];
+    int followersCount = self.myUser.follows_count.intValue;
+    
+    [NRGramKit getUsersFollowingUserWithId:self.myUser.Id count:followersCount withCallback:^(NSArray * followers) {
+        
+        self.followers =[followers mutableCopy];
+        for (IGUser *user in self.followers) {
+            [self.followersName addObject:user.username];
+        }
+        dispatch_async(dispatch_get_main_queue(),^{
+            [self.tableView reloadData];
+        });
+    }];
+
+    
 }
 
-- (void)didReceiveMemoryWarning
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
+    NSPredicate *searchPredicate =[NSPredicate predicateWithFormat:@"description contains[c] %@",searchString];
+    self.searchResult = [self.followersName filteredArrayUsingPredicate:searchPredicate];
+    
+    
+    return YES;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    // Return the number of sections.
+    return 1;
 }
-*/
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Return the number of rows in the section.
+    if(tableView == self.searchDisplayController.searchResultsTableView){
+        return self.searchResult.count;
+    }else{
+        return self.followersName
+        .count;
+        
+    }}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    SearchFriendsTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    IGUser *user = self.followers[indexPath.row];
+    NSLog(@"INDEXPATH ROW = %d",indexPath.row);
+    [self createImage:user];
+    
+    if([self.images objectForKey:user.username]){
+        
+        
+    }
+    
+    if(tableView == self.searchDisplayController.searchResultsTableView){
+        NSLog(@"search");
+        
+        CGRect newFrame = CGRectMake(100, 23, 40,1);
+        cell.nameLabel.text = self.searchResult[indexPath.row];
+        cell.imageLabel.frame = newFrame;
+        [self.tableView reloadData];
+        cell.imageLabel.image =[self.images objectForKey:self.searchResult[indexPath.row]];
+
+    }else{
+        NSLog(@"not search");
+        cell.nameLabel.text = self.followersName[indexPath.row];
+        cell.imageLabel.image =[self.images objectForKey:user.username];
+        
+    }
+    return cell;
+    
+}
+-(void)createImage:(IGUser *)user
+{
+    
+    if(![self.images objectForKey:user.username]){
+        NSURL *fotoURL =[NSURL URLWithString:user.profile_picture];
+        
+        NSData *data= [[NSData alloc]initWithContentsOfURL:fotoURL];
+        
+        UIImage *image= [[UIImage alloc] initWithData:data];
+        
+        [self.images setObject:image forKey:user.username];
+        
+        
+    }
+    
+    
+}
+
+
+
 
 @end

@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface SearchFriendsViewController : UIViewController
+#import "NRGramKit.h"
+@interface SearchFriendsViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
 @end
