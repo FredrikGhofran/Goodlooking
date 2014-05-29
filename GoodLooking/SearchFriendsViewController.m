@@ -11,8 +11,10 @@
 #import "SearchFriendsTableViewCell.h"
 @interface SearchFriendsViewController ()
 @property(nonatomic)IGUser *myUser;
-@property(nonatomic)NSMutableArray *followers;
-@property(nonatomic)NSMutableArray *followersName;
+@property(nonatomic)NSMutableArray *followers;  //sparar IGusers i en array för att hämta användar med indexpath
+@property(nonatomic)NSMutableArray *followersName;     // sparar IGUsers namn för att kunna visa upp i sök
+@property(nonatomic)NSMutableDictionary *followersDic; // Sparar IGUsers med namn nyklar för att kunna hämta users med followers names
+
 @property(nonatomic)NSMutableDictionary *images;
 @property(nonatomic)NSArray *searchResult;
 @end
@@ -31,6 +33,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.followersDic =[[NSMutableDictionary alloc]init];
     self.followersName =[[NSMutableArray alloc]init];
     self.myUser = [LoggedInUser myUser];
     self.images = [[NSMutableDictionary alloc]init];
@@ -41,6 +44,7 @@
         self.followers =[followers mutableCopy];
         for (IGUser *user in self.followers) {
             [self.followersName addObject:user.username];
+            [self.followersDic setObject:user forKey:user.username];
         }
         dispatch_async(dispatch_get_main_queue(),^{
             [self.tableView reloadData];
@@ -81,19 +85,15 @@
     IGUser *user = self.followers[indexPath.row];
     NSLog(@"INDEXPATH ROW = %d",indexPath.row);
     [self createImage:user];
-    
-    if([self.images objectForKey:user.username]){
-        
-        
-    }
+
     
     if(tableView == self.searchDisplayController.searchResultsTableView){
         NSLog(@"search");
-        
-        CGRect newFrame = CGRectMake(100, 23, 40,1);
         cell.nameLabel.text = self.searchResult[indexPath.row];
-        cell.imageLabel.frame = newFrame;
-        [self.tableView reloadData];
+        [self createImage:[self.followersDic objectForKey:self.searchResult[indexPath.row]]];
+        if(![self.images objectForKey:self.searchResult[indexPath.row]]){
+            NSLog(@"BILDEN HAr inte häMTATS");
+        }
         cell.imageLabel.image =[self.images objectForKey:self.searchResult[indexPath.row]];
 
     }else{
