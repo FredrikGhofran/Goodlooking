@@ -34,17 +34,31 @@
    
     self.currentNames =[[NSMutableArray alloc]init];
     self.myUser = [LoggedInUser myUser];
-    int followingCount = self.myUser.follows_count.intValue;
+    int followingCount = self.myUser.follows_count.intValue*2;
     if(!self.friendsDictionary){
+        
+    
     [NRGramKit getUsersFollowingUserWithId:self.myUser.Id count:followingCount withCallback:^(NSArray * following) {
          self.friendsDictionary =[[NSMutableDictionary alloc]init];
+        int i =0;
         for (IGUser *user in following) {
-            [self.currentNames addObject:user.username];
-            [self.friendsDictionary setObject:[@[user,@"no pic"]mutableCopy] forKey:user.username];
+            i++;
+            NSLog(@"HÄMTAR ANVÄNDARE : %@",user.username);
+            NSLog(@"%d",i);
+            [NRGramKit getRelationshipWithUser:user.Id withCallback:^(IGIncomingRelationshipStatus incoming, IGOutgoingRelationshipStatus outcoming) {
+                if (outcoming == IGOutgoingRelationshipFollows && incoming ==IGIncomingRelationshipFollowedBy ) {
+                    NSLog(@"LÄGGER TILL ANVÄNDARE= %@",user.username);
+                    [self.currentNames addObject:user.username];
+                    [self.friendsDictionary setObject:[@[user,@"no pic"]mutableCopy] forKey:user.username];
+                    dispatch_async(dispatch_get_main_queue(),^{
+                        [self.tableView reloadData];
+                    });
+                }
+                
+            }];
+
         }
-        dispatch_async(dispatch_get_main_queue(),^{
-            [self.tableView reloadData];
-        });
+
     }];
         
     }
@@ -53,7 +67,8 @@
 - (IBAction)segmentedClick:(UISegmentedControl *)sender {
     
     if(sender.selectedSegmentIndex==1){
-        int followersCount = self.myUser.followed_by_count.integerValue;
+        int followersCount = self.myUser.followed_by_count.integerValue*2;
+        NSLog(@"FOLLOWERSCOUNT %d",followersCount);
         [NRGramKit getUsersWhoFollowUserWithId:self.myUser.Id count:followersCount withCallback:^(NSArray *followers) {
             self.currentNames=[@[]mutableCopy];
 
@@ -61,6 +76,8 @@
                 [self.currentNames addObject:user.username];
                 if(![self.friendsDictionary objectForKey:user.username]){
                     [self.friendsDictionary setObject:[@[user,@"no pic"]mutableCopy] forKey:user.username];
+              
+                    
                 }
                 dispatch_async(dispatch_get_main_queue(),^{
                     [self.tableView reloadData];
@@ -69,13 +86,16 @@
         }];
     }else{
         
-        int followersCount = self.myUser.follows_count.integerValue;
+        int followersCount = self.myUser.follows_count.integerValue*2;
+        NSLog(@"FOLLOWERSCOUNT %d",followersCount);
+
         [NRGramKit getUsersFollowingUserWithId:self.myUser.Id count:followersCount withCallback:^(NSArray *following) {
              self.currentNames=[@[]mutableCopy];
             for (IGUser *user in following) {
                 [self.currentNames addObject:user.username];
                 if(![self.friendsDictionary objectForKey:user.username]){
                     [self.friendsDictionary setObject:[@[user,@"no pic"]mutableCopy] forKey:user.username];
+                    
                 }
                 dispatch_async(dispatch_get_main_queue(),^{
                     [self.tableView reloadData];
@@ -123,20 +143,17 @@
         IGUser *user =self.friendsDictionary[userName][0];
         [self createImage:user];
         
-        NSLog(@"search");
+     //   NSLog(@"search");
         cell.nameLabel.text = user.username;
    
         cell.imageLabel.image =self.friendsDictionary[user.username][2];
 
     }else{
-        NSLog(@"test");
         NSString *userName = self.currentNames[indexPath.row];
-        NSLog(@"test1");
         IGUser *user =self.friendsDictionary[userName][0];
-        NSLog(@"test2");
         [self createImage:user];
         
-        NSLog(@"not search");
+       // NSLog(@"not search");
         cell.nameLabel.text = user.username;
         cell.imageLabel.image =self.friendsDictionary[user.username][2];
         
@@ -146,15 +163,11 @@
 }
 -(void)createImage:(IGUser *)user
 {
-    NSLog(@"test3");
     NSString *imageMessage = self.friendsDictionary[user.username][1];
     
     if([imageMessage isEqualToString:@"no pic"]){
-        NSLog(@"test4");
         NSURL *fotoURL =[NSURL URLWithString:user.profile_picture];
-        NSLog(@"test5");
         NSData *data= [[NSData alloc]initWithContentsOfURL:fotoURL];
-        NSLog(@"test6");
         UIImage *image= [[UIImage alloc] initWithData:data];
         NSMutableArray *userArray = [@[user,@"pic",image]mutableCopy];
         [self.friendsDictionary setObject:userArray forKey:user.username];

@@ -28,7 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     [NRGramKit loginInWebView:self.webbView loginLoadingCallback:^(BOOL loading){
         if(loading){
             
