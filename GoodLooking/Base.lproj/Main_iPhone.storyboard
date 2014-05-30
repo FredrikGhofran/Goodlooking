@@ -86,20 +86,7 @@
                                 <rect key="frame" x="0.0" y="23" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem id="crb-Ms-7f0">
-                                        <nil key="title"/>
-                                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="hXL-6G-Urg">
-                                            <rect key="frame" x="88" y="7" width="145" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <segments>
-                                                <segment title="Following"/>
-                                                <segment title="Followers"/>
-                                            </segments>
-                                            <connections>
-                                                <action selector="segmentedClick:" destination="aYE-4f-RLv" eventType="valueChanged" id="pR1-gJ-ypT"/>
-                                            </connections>
-                                        </segmentedControl>
-                                    </navigationItem>
+                                    <navigationItem title="Friends" id="crb-Ms-7f0"/>
                                 </items>
                             </navigationBar>
                             <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qT7-NC-ZOf">
@@ -169,7 +156,6 @@
                     </tabBarItem>
                     <connections>
                         <outlet property="searchDisplayController" destination="yEB-U0-Ph7" id="adp-F2-SdT"/>
-                        <outlet property="segmentController" destination="hXL-6G-Urg" id="0tZ-PA-B7d"/>
                         <outlet property="tableView" destination="hW8-jg-cxz" id="d0N-nP-beO"/>
                     </connections>
                 </viewController>

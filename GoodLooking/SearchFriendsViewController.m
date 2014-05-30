@@ -14,7 +14,7 @@
 @property(nonatomic)NSMutableArray *currentNames;
 @property(nonatomic)NSMutableDictionary *friendsDictionary;
 @property(nonatomic)NSArray *searchResult;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentController;
+
 @end
 
 @implementation SearchFriendsViewController
@@ -44,11 +44,12 @@
         for (IGUser *user in following) {
             i++;
             NSLog(@"HÄMTAR ANVÄNDARE : %@",user.username);
-            NSLog(@"%d",i);
+            NSLog(@"kollar = %d",i);
             [NRGramKit getRelationshipWithUser:user.Id withCallback:^(IGIncomingRelationshipStatus incoming, IGOutgoingRelationshipStatus outcoming) {
                 if (outcoming == IGOutgoingRelationshipFollows && incoming ==IGIncomingRelationshipFollowedBy ) {
                     NSLog(@"LÄGGER TILL ANVÄNDARE= %@",user.username);
                     [self.currentNames addObject:user.username];
+                    NSLog(@"LÄGGER TILL NR =%d",self.currentNames.count);
                     [self.friendsDictionary setObject:[@[user,@"no pic"]mutableCopy] forKey:user.username];
                     dispatch_async(dispatch_get_main_queue(),^{
                         [self.tableView reloadData];
@@ -58,54 +59,13 @@
             }];
 
         }
-
+       
     }];
         
     }
     
 }
-- (IBAction)segmentedClick:(UISegmentedControl *)sender {
-    
-    if(sender.selectedSegmentIndex==1){
-        int followersCount = self.myUser.followed_by_count.integerValue*2;
-        NSLog(@"FOLLOWERSCOUNT %d",followersCount);
-        [NRGramKit getUsersWhoFollowUserWithId:self.myUser.Id count:followersCount withCallback:^(NSArray *followers) {
-            self.currentNames=[@[]mutableCopy];
 
-            for (IGUser *user in followers) {
-                [self.currentNames addObject:user.username];
-                if(![self.friendsDictionary objectForKey:user.username]){
-                    [self.friendsDictionary setObject:[@[user,@"no pic"]mutableCopy] forKey:user.username];
-              
-                    
-                }
-                dispatch_async(dispatch_get_main_queue(),^{
-                    [self.tableView reloadData];
-                });
-            }
-        }];
-    }else{
-        
-        int followersCount = self.myUser.follows_count.integerValue*2;
-        NSLog(@"FOLLOWERSCOUNT %d",followersCount);
-
-        [NRGramKit getUsersFollowingUserWithId:self.myUser.Id count:followersCount withCallback:^(NSArray *following) {
-             self.currentNames=[@[]mutableCopy];
-            for (IGUser *user in following) {
-                [self.currentNames addObject:user.username];
-                if(![self.friendsDictionary objectForKey:user.username]){
-                    [self.friendsDictionary setObject:[@[user,@"no pic"]mutableCopy] forKey:user.username];
-                    
-                }
-                dispatch_async(dispatch_get_main_queue(),^{
-                    [self.tableView reloadData];
-                });
-            }
-        }];
-
-    
-    }
-}
 
 -(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
