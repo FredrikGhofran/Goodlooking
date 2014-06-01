@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Start View Controller-->
         <scene sceneID="cRA-VF-T3h">
             <objects>
-                <viewController id="328-H0-AZd" sceneMemberID="viewController">
+                <viewController id="328-H0-AZd" customClass="StartViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wxs-hE-NBO"/>
                         <viewControllerLayoutGuide type="bottom" id="xZx-x2-B9l"/>
@@ -86,7 +86,13 @@
                                 <rect key="frame" x="0.0" y="23" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Friends" id="crb-Ms-7f0"/>
+                                    <navigationItem title="Friends" id="crb-Ms-7f0">
+                                        <barButtonItem key="leftBarButtonItem" title="Log ut" id="YVn-xW-gxW">
+                                            <connections>
+                                                <action selector="logUtClick:" destination="aYE-4f-RLv" id="bFw-7h-i81"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                             <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qT7-NC-ZOf">

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4525F36B193B58D0008F010A /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4525F36A193B58D0008F010A /* StartViewController.m */; };
 		45B4BC2C1937548F005A7DEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4BC2B1937548F005A7DEC /* Foundation.framework */; };
 		45B4BC2E1937548F005A7DEC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4BC2D1937548F005A7DEC /* CoreGraphics.framework */; };
 		45B4BC301937548F005A7DEC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4BC2F1937548F005A7DEC /* UIKit.framework */; };
@@ -41,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4525F369193B58D0008F010A /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
+		4525F36A193B58D0008F010A /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
 		45B4BC281937548F005A7DEC /* GoodLooking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoodLooking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45B4BC2B1937548F005A7DEC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		45B4BC2D1937548F005A7DEC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -137,6 +140,8 @@
 				45B4BC3A1937548F005A7DEC /* AppDelegate.h */,
 				45B4BC3B1937548F005A7DEC /* AppDelegate.m */,
 				45B4BC3D1937548F005A7DEC /* Main_iPhone.storyboard */,
+				4525F369193B58D0008F010A /* StartViewController.h */,
+				4525F36A193B58D0008F010A /* StartViewController.m */,
 				45B4BC6E1937682B005A7DEC /* LoggedInUser.h */,
 				45B4BC6F1937682B005A7DEC /* LoggedInUser.m */,
 				45B4BC6919376165005A7DEC /* WebbViewController.h */,
@@ -323,6 +328,7 @@
 				45B4BC451937548F005A7DEC /* ViewController.m in Sources */,
 				45B4BC6B19376165005A7DEC /* WebbViewController.m in Sources */,
 				45B4BC3C1937548F005A7DEC /* AppDelegate.m in Sources */,
+				4525F36B193B58D0008F010A /* StartViewController.m in Sources */,
 				45B4BC381937548F005A7DEC /* main.m in Sources */,
 				45B4BC6819375FB9005A7DEC /* SearchFriendsTableViewCell.m in Sources */,
 			);

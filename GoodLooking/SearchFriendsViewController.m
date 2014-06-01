@@ -40,17 +40,15 @@
     
     [NRGramKit getUsersFollowingUserWithId:self.myUser.Id count:followingCount withCallback:^(NSArray * following) {
          self.friendsDictionary =[[NSMutableDictionary alloc]init];
-        int i =0;
         for (IGUser *user in following) {
-            i++;
-            NSLog(@"HÄMTAR ANVÄNDARE : %@",user.username);
-            NSLog(@"kollar = %d",i);
+        
             [NRGramKit getRelationshipWithUser:user.Id withCallback:^(IGIncomingRelationshipStatus incoming, IGOutgoingRelationshipStatus outcoming) {
                 if (outcoming == IGOutgoingRelationshipFollows && incoming ==IGIncomingRelationshipFollowedBy ) {
-                    NSLog(@"LÄGGER TILL ANVÄNDARE= %@",user.username);
+                    
                     [self.currentNames addObject:user.username];
-                    NSLog(@"LÄGGER TILL NR =%d",self.currentNames.count);
+                    
                     [self.friendsDictionary setObject:[@[user,@"no pic"]mutableCopy] forKey:user.username];
+                    
                     dispatch_async(dispatch_get_main_queue(),^{
                         [self.tableView reloadData];
                     });
@@ -66,6 +64,9 @@
     
 }
 
+- (IBAction)logUtClick:(id)sender {
+    [NRGramKit logout];
+}
 
 -(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
