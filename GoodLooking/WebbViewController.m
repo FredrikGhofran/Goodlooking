@@ -47,7 +47,6 @@
                  [self.spinner startAnimating];
                  NSLog(@"ASD");
                  UITabBarController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"Followers"];
-                 
                  [LoggedInUser setMyUser:user];
                  [self presentViewController:vc animated:YES completion:nil];
                  

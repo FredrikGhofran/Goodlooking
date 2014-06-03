@@ -44,11 +44,8 @@
         
             [NRGramKit getRelationshipWithUser:user.Id withCallback:^(IGIncomingRelationshipStatus incoming, IGOutgoingRelationshipStatus outcoming) {
                 if (outcoming == IGOutgoingRelationshipFollows && incoming ==IGIncomingRelationshipFollowedBy ) {
-                    
                     [self.currentNames addObject:user.username];
-                    
                     [self.friendsDictionary setObject:[@[user,@"no pic"]mutableCopy] forKey:user.username];
-                    
                     dispatch_async(dispatch_get_main_queue(),^{
                         [self.tableView reloadData];
                     });
@@ -64,8 +61,13 @@
     
 }
 
+
 - (IBAction)logUtClick:(id)sender {
     [NRGramKit logout];
+    
+    UINavigationController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"StartView"];
+    [self presentViewController:vc animated:YES completion:nil];
+    
 }
 
 -(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
@@ -96,12 +98,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     SearchFriendsTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
    
-
+    
     
     if(tableView == self.searchDisplayController.searchResultsTableView){
         cell.userInteractionEnabled = NO;
         NSString *userName = self.searchResult[indexPath.row];
         IGUser *user =self.friendsDictionary[userName][0];
+        cell.otherUser = user;
         [self createImage:user];
         
      //   NSLog(@"search");
@@ -112,6 +115,7 @@
     }else{
         NSString *userName = self.currentNames[indexPath.row];
         IGUser *user =self.friendsDictionary[userName][0];
+        cell.otherUser = user;
         [self createImage:user];
         
        // NSLog(@"not search");

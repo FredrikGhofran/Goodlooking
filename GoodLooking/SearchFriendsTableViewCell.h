@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "NRGramKit.h"
 @interface SearchFriendsTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageLabel;
-
+@property(nonatomic)IGUser *otherUser;
 @property (weak, nonatomic) IBOutlet UIImageView *imageButton;
 @end

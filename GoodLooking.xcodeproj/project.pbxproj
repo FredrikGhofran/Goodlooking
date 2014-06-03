@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4525F36B193B58D0008F010A /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4525F36A193B58D0008F010A /* StartViewController.m */; };
+		4525F36E193B6F9C008F010A /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 4525F36D193B6F9C008F010A /* Database.m */; };
 		45B4BC2C1937548F005A7DEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4BC2B1937548F005A7DEC /* Foundation.framework */; };
 		45B4BC2E1937548F005A7DEC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4BC2D1937548F005A7DEC /* CoreGraphics.framework */; };
 		45B4BC301937548F005A7DEC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4BC2F1937548F005A7DEC /* UIKit.framework */; };
@@ -44,6 +45,8 @@
 /* Begin PBXFileReference section */
 		4525F369193B58D0008F010A /* StartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartViewController.h; sourceTree = "<group>"; };
 		4525F36A193B58D0008F010A /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
+		4525F36C193B6F9C008F010A /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
+		4525F36D193B6F9C008F010A /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
 		45B4BC281937548F005A7DEC /* GoodLooking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoodLooking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45B4BC2B1937548F005A7DEC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		45B4BC2D1937548F005A7DEC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -150,6 +153,8 @@
 				45B4BC6719375FB9005A7DEC /* SearchFriendsTableViewCell.m */,
 				45B4BC6319375BC1005A7DEC /* SearchFriendsViewController.h */,
 				45B4BC6419375BC1005A7DEC /* SearchFriendsViewController.m */,
+				4525F36C193B6F9C008F010A /* Database.h */,
+				4525F36D193B6F9C008F010A /* Database.m */,
 				45B4BC401937548F005A7DEC /* Main_iPad.storyboard */,
 				45B4BC431937548F005A7DEC /* ViewController.h */,
 				45B4BC441937548F005A7DEC /* ViewController.m */,
@@ -330,6 +335,7 @@
 				45B4BC3C1937548F005A7DEC /* AppDelegate.m in Sources */,
 				4525F36B193B58D0008F010A /* StartViewController.m in Sources */,
 				45B4BC381937548F005A7DEC /* main.m in Sources */,
+				4525F36E193B6F9C008F010A /* Database.m in Sources */,
 				45B4BC6819375FB9005A7DEC /* SearchFriendsTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
