@@ -123,8 +123,9 @@
         NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
         NSLog(@"JSONARRAY %@",jsonArray);
         if(jsonArray.count >=1){
-            
             NSLog(@"match");
+            [self checkIfMatchExsist];
+            
         }else{
          NSLog(@"no match");
         }
@@ -134,6 +135,55 @@
     
     [task resume];
 
+}
+-(void)checkIfMatchExsist
+{
+    NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/checkIfMatchesExsist.php?userID=%@&otherUser=%@",self.myUser.username,self.otherUser.username];
+    
+    
+    NSURL *URL = [NSURL URLWithString:urlString];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    
+    
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSError *parseError;
+        NSLog(@"data =%@ ",data);
+        NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
+        NSLog(@"JSONARRAY %@",jsonArray);
+        if(jsonArray.count >=1){
+            
+            NSLog(@"already exsisting match");
+        }else{
+            NSLog(@"match not exsisting");
+            [self addMatch];
+        }
+        
+    }];
+    
+     [task resume];
+    
+}
+-(void)addMatch
+{
+    NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/addMatch?userID=%@&otherUser=%@",self.myUser.username,self.otherUser.username];
+    
+    
+    NSURL *URL = [NSURL URLWithString:urlString];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    
+    
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        NSLog(@"added match");
+    }];
+    
+    [task resume];
 }
 
 @end

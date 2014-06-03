@@ -128,6 +128,7 @@
             
             cell.imageButton.image =[UIImage imageNamed:@"heartSmiley"];
         }else{
+
             cell.imageButton.image =[UIImage imageNamed:@"smilie"];
         }
         [self createImage:user];
@@ -159,6 +160,8 @@
 
 -(void)getLikes
 {
+    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
     NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/getLikes.php?userID=%@",self.myUser.username];
     
     
