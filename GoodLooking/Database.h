@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface Database : NSObject
-+ (NSUserDefaults *) imageList;
-+ (void) setImageList:(NSUserDefaults *)imageList;
++ (NSUserDefaults *) database;
++ (void) setDatabase:(NSUserDefaults *)database;
+
 @end

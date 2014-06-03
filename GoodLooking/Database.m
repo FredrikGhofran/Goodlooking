@@ -9,17 +9,17 @@
 #import "Database.h"
 
 @implementation Database
-static NSUserDefaults * _imageList;
+static NSUserDefaults * _database;
 
-+ (NSUserDefaults *)imageList
++ (NSUserDefaults *)database
 {
-    if(!_imageList){
-        _imageList = [NSUserDefaults standardUserDefaults];
+    if(! _database){
+         _database = [NSUserDefaults standardUserDefaults];
     }
-    return _imageList;
+    return  _database;
 }
 
-+ (void) setImageList:(NSUserDefaults *)imageList{
-    _imageList = imageList;
++ (void) setDatabase:(NSUserDefaults *) database{
+     _database =  database;
 }
 @end

@@ -28,6 +28,7 @@
 {
     // Initialization code
 }
+
 -(IGUser *)myUser{
     if (!_myUser) {
         _myUser = [LoggedInUser myUser];
@@ -47,6 +48,7 @@
         NSLog(@"You liked %@",self.nameLabel.text);
         
         [self add];
+        [self check];
         
     }else{
         NSLog(@"You unliked %@",self.nameLabel.text);
@@ -105,7 +107,8 @@
     [task resume];
 }
 -(void)check{
-    NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/json.php?userID=%@",self.myUser.username];
+    NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/checkMatch.php?userID=%@&otherUser=%@",self.otherUser.username,self.myUser.username];
+
     
     NSURL *URL = [NSURL URLWithString:urlString];
     
@@ -113,31 +116,17 @@
     
     NSURLSession *session = [NSURLSession sharedSession];
     
-    NSLog(@"click");
+    
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSError *parseError;
         NSLog(@"data =%@ ",data);
         NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
-
+        NSLog(@"JSONARRAY %@",jsonArray);
         if(jsonArray.count >=1){
-            //UPDATE
-            NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/update.php?userID=%@&otherUser=%@",self.myUser.username,self.otherUser.Id];
             
-            NSURL *URL = [NSURL URLWithString:urlString];
-            
-            NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-            
-            NSURLSession *session = [NSURLSession sharedSession];
-            
-            NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                NSLog(@"update");
-             }];
-            [task resume];
+            NSLog(@"match");
         }else{
-        //ADD
-            NSLog(@"MY username %@",self.myUser.username);
-
-        
+         NSLog(@"no match");
         }
         
     }];

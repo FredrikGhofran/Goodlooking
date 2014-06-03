@@ -9,6 +9,7 @@
 #import "SearchFriendsViewController.h"
 #import "LoggedInUser.h"
 #import "SearchFriendsTableViewCell.h"
+#import "Database.h"
 @interface SearchFriendsViewController ()
 @property(nonatomic)IGUser *myUser;
 @property(nonatomic)NSMutableArray *currentNames;
@@ -59,6 +60,7 @@
         
     }
     
+    [self getLikes];
 }
 
 
@@ -105,6 +107,12 @@
         NSString *userName = self.searchResult[indexPath.row];
         IGUser *user =self.friendsDictionary[userName][0];
         cell.otherUser = user;
+        if([[Database database] objectForKey:user.username]){
+            
+            cell.imageButton.image =[UIImage imageNamed:@"heartSmiley"];
+        }else{
+        cell.imageButton.image =[UIImage imageNamed:@"smilie"];
+        }
         [self createImage:user];
         
      //   NSLog(@"search");
@@ -116,6 +124,12 @@
         NSString *userName = self.currentNames[indexPath.row];
         IGUser *user =self.friendsDictionary[userName][0];
         cell.otherUser = user;
+        if([[Database database] objectForKey:user.username]){
+            
+            cell.imageButton.image =[UIImage imageNamed:@"heartSmiley"];
+        }else{
+            cell.imageButton.image =[UIImage imageNamed:@"smilie"];
+        }
         [self createImage:user];
         
        // NSLog(@"not search");
@@ -141,6 +155,46 @@
     }
     
     
+}
+
+-(void)getLikes
+{
+    NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/getLikes.php?userID=%@",self.myUser.username];
+    
+    
+    NSURL *URL = [NSURL URLWithString:urlString];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    
+    
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSError *parseError;
+        NSLog(@"data =%@ ",data);
+        NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
+        NSLog(@"JSONARRAY %@",jsonArray);
+        if(jsonArray.count >=1){
+            NSLog(@"you have liked %d persons",jsonArray.count);
+            for(int i = 0;i<jsonArray.count;i++){
+                NSDictionary *dic = jsonArray[i];
+                
+                NSString *name = dic[@"otherUser"];
+                
+                [[Database database] setObject:name forKey:name];
+            }
+            
+        }else{
+            NSLog(@"no likes");
+            
+        }
+        
+    }];
+    
+    
+    [task resume];
+
+
 }
 
 
