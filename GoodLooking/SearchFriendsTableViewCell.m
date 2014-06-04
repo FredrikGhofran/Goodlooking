@@ -47,158 +47,34 @@
     if(self.imageButton.image == [UIImage imageNamed:@"smilie"]){
         NSLog(@"You liked %@",self.nameLabel.text);
         
-        [self add];
-        [self check];
+        if([self.myUser add:self.otherUser]){
+        
+            dispatch_async(dispatch_get_main_queue(),^{
+                
+                self.imageButton.image = [UIImage imageNamed:@"heartSmiley"];
+                
+            });
+        }
+        
+        [self.myUser check];
         
     }else{
         NSLog(@"You unliked %@",self.nameLabel.text);
-        [self remove];
         
+        if([self.myUser remove:self.otherUser]){
+            
+            dispatch_async(dispatch_get_main_queue(),^{
+                
+                self.imageButton.image = [UIImage imageNamed:@"smilie"];
+                
+            });
+        }
         
     }
 
+}
 
-    
-}
--(void)add
-{
-    NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/add.php?userID=%@&otherUser=%@",self.myUser.username,self.otherUser.username];
-    NSLog(@"URL %@",urlString);
-    NSURL *URL = [NSURL URLWithString:urlString];
-    
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-    
-    NSURLSession *session = [NSURLSession sharedSession];
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        dispatch_async(dispatch_get_main_queue(),^{
-            
-        self.imageButton.image = [UIImage imageNamed:@"heartSmiley"];
-            
-         });
-        
-        
-        NSLog(@"add");
-    }];
-    [task resume];
-}
--(void)remove{
 
-    NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/remove.php?userID=%@&otherUser=%@",self.myUser.username,self.otherUser.username];
-    NSLog(@"URL %@",urlString);
-    NSURL *URL = [NSURL URLWithString:urlString];
-    
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-    
-    NSURLSession *session = [NSURLSession sharedSession];
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        dispatch_async(dispatch_get_main_queue(),^{
-            
-            self.imageButton.image = [UIImage imageNamed:@"smilie"];
-            
-        });
-        
-        
-        NSLog(@"remove");
-    }];
-    [task resume];
-}
--(void)check{
-    NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/checkMatch.php?userID=%@&otherUser=%@",self.otherUser.username,self.myUser.username];
-
-    
-    NSURL *URL = [NSURL URLWithString:urlString];
-    
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-    
-    NSURLSession *session = [NSURLSession sharedSession];
-    
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSError *parseError;
-        NSLog(@"data =%@ ",data);
-        NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
-        NSLog(@"JSONARRAY %@",jsonArray);
-        if(jsonArray.count >=1){
-            NSLog(@"match");
-            [self checkIfMatchExsist];
-            
-        }else{
-         NSLog(@"no match");
-        }
-        
-    }];
-    
-    
-    [task resume];
-
-}
--(void)checkIfMatchExsist
-{
-    NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/checkIfMatchesExsist.php?userID=%@&otherUser=%@",self.myUser.username,self.otherUser.username];
-    
-    
-    NSURL *URL = [NSURL URLWithString:urlString];
-    
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-    
-    NSURLSession *session = [NSURLSession sharedSession];
-    
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSError *parseError;
-        NSLog(@"data =%@ ",data);
-        NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
-        NSLog(@"JSONARRAY %@",jsonArray);
-        if(jsonArray.count >=1){
-            
-            NSLog(@"already exsisting match");
-        }else{
-            NSLog(@"match not exsisting");
-            [self addMatch];
-        }
-        
-    }];
-    
-     [task resume];
-    
-}
--(void)addMatch
-{
-    NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/addMatch.php?userID=%@&otherUser=%@",self.myUser.username,self.otherUser.username];
-    
-    
-    NSURL *URL = [NSURL URLWithString:urlString];
-    
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-    
-    NSURLSession *session = [NSURLSession sharedSession];
-    
-    
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        dispatch_async(dispatch_get_main_queue(),^{
-            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Match!" message:@"Match!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
-            
-            [alertView show];
-           
-        });
-        NSLog(@"added match");
-    }];
-    
-    [task resume];
-}
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if(buttonIndex ==0){
-        NSLog(@"Do nothing");
-    }else if(buttonIndex == 1){
-        NSLog(@"Send request");
-    }
-}
 
 
 @end
