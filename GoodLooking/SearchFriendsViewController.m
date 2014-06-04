@@ -15,6 +15,7 @@
 @property(nonatomic)NSMutableArray *currentNames;
 @property(nonatomic)NSMutableDictionary *friendsDictionary;
 @property(nonatomic)NSArray *searchResult;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 @end
 
@@ -32,7 +33,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-   
+    NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"NSGramKit_access_token"];
+    NSLog(@"TOKEN %@",token);
     self.currentNames =[[NSMutableArray alloc]init];
     self.myUser = [LoggedInUser myUser];
     int followingCount = self.myUser.follows_count.intValue*2;
@@ -40,28 +42,29 @@
         
     
     [NRGramKit getUsersFollowingUserWithId:self.myUser.Id count:followingCount withCallback:^(NSArray * following) {
+        NSLog(@"Get users");
+
          self.friendsDictionary =[[NSMutableDictionary alloc]init];
         for (IGUser *user in following) {
         
             [NRGramKit getRelationshipWithUser:user.Id withCallback:^(IGIncomingRelationshipStatus incoming, IGOutgoingRelationshipStatus outcoming) {
                 if (outcoming == IGOutgoingRelationshipFollows && incoming ==IGIncomingRelationshipFollowedBy ) {
                     [self.currentNames addObject:user.username];
-                    [self.friendsDictionary setObject:[@[user,@"no pic"]mutableCopy] forKey:user.username];
+                    [[NSUserDefaults standardUserDefaults] setObject:[@[user,@"no pic"]mutableCopy] forKey:user.username];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
                     dispatch_async(dispatch_get_main_queue(),^{
                         [self.tableView reloadData];
                     });
                 }
-                
             }];
-
-        }
-       
-    }];
         
+        }
+ 
+    }];
     }
-    
     [self getLikes];
 }
+
 
 
 - (IBAction)logUtClick:(id)sender {
@@ -100,13 +103,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     SearchFriendsTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
    
-    
+    NSLog(@"buliding cells");
     
     if(tableView == self.searchDisplayController.searchResultsTableView){
-        cell.userInteractionEnabled = NO;
         NSString *userName = self.searchResult[indexPath.row];
         IGUser *user =self.friendsDictionary[userName][0];
-        cell.otherUser = user;
+     
         if([[Database database] objectForKey:user.username]){
             
             cell.imageButton.image =[UIImage imageNamed:@"heartSmiley"];
@@ -124,12 +126,19 @@
         NSString *userName = self.currentNames[indexPath.row];
         IGUser *user =self.friendsDictionary[userName][0];
         cell.otherUser = user;
+        if(cell.addName){
+            [[Database database] setObject:cell.addName forKey:cell.addName];
+            NSLog(@"NAME IN LIST = %@",[[Database database] objectForKey:cell.addName]);
+        }
+        
         if([[Database database] objectForKey:user.username]){
             
             cell.imageButton.image =[UIImage imageNamed:@"heartSmiley"];
+            
         }else{
 
             cell.imageButton.image =[UIImage imageNamed:@"smilie"];
+
         }
         [self createImage:user];
         
@@ -143,6 +152,7 @@
 }
 -(void)createImage:(IGUser *)user
 {
+    [self.spinner startAnimating];
     NSString *imageMessage = self.friendsDictionary[user.username][1];
     
     if([imageMessage isEqualToString:@"no pic"]){
@@ -154,13 +164,16 @@
         
         
     }
-    
+    dispatch_async(dispatch_get_main_queue(),^{
+        
+        [self.spinner stopAnimating];
+        self.spinner.hidesWhenStopped = YES;
+    });
     
 }
 
 -(void)getLikes
 {
-
     
     NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/getLikes.php?userID=%@",self.myUser.username];
     
@@ -191,7 +204,9 @@
             NSLog(@"no likes");
             
         }
-        
+        NSLog(@"done");
+ 
+       
     }];
     
     

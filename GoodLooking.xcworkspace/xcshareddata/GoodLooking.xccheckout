@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>ADE15443-B338-45CA-A3A2-D19197AB97EB</string>
+	<key>IDESourceControlProjectName</key>
+	<string>GoodLooking</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B420FC05-A4ED-4FF4-8D21-8515203A7A32</key>
+		<string>https://github.com/FredrikGhofran/Goodlooking</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>GoodLooking.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B420FC05-A4ED-4FF4-8D21-8515203A7A32</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/FredrikGhofran/Goodlooking</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B420FC05-A4ED-4FF4-8D21-8515203A7A32</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B420FC05-A4ED-4FF4-8D21-8515203A7A32</string>
+			<key>IDESourceControlWCCName</key>
+			<string>GoodLooking</string>
+		</dict>
+	</array>
+</dict>
+</plist>

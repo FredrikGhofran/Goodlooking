@@ -13,4 +13,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageLabel;
 @property(nonatomic)IGUser *otherUser;
 @property (weak, nonatomic) IBOutlet UIImageView *imageButton;
+@property(nonatomic)NSString *addName;
+
 @end
