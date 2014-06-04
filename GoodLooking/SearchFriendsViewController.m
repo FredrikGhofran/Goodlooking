@@ -50,8 +50,7 @@
             [NRGramKit getRelationshipWithUser:user.Id withCallback:^(IGIncomingRelationshipStatus incoming, IGOutgoingRelationshipStatus outcoming) {
                 if (outcoming == IGOutgoingRelationshipFollows && incoming ==IGIncomingRelationshipFollowedBy ) {
                     [self.currentNames addObject:user.username];
-                    [[NSUserDefaults standardUserDefaults] setObject:[@[user,@"no pic"]mutableCopy] forKey:user.username];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    [self.friendsDictionary setObject:[@[user,@"no pic"]mutableCopy] forKey:user.username];
                     dispatch_async(dispatch_get_main_queue(),^{
                         [self.tableView reloadData];
                     });
