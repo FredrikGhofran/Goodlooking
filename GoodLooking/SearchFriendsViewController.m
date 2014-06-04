@@ -160,8 +160,8 @@
 
 -(void)getLikes
 {
-    NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
-    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:appDomain];
+
+    
     NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/getLikes.php?userID=%@",self.myUser.username];
     
     

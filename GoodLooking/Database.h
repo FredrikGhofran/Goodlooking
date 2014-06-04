@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface Database : NSObject
-+ (NSUserDefaults *) database;
-+ (void) setDatabase:(NSUserDefaults *)database;
++ (NSMutableDictionary *) database;
++ (void) setDatabase:(NSMutableDictionary *)database;
 
 @end

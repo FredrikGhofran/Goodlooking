@@ -9,17 +9,17 @@
 #import "Database.h"
 
 @implementation Database
-static NSUserDefaults * _database;
+static NSMutableDictionary * _database;
 
-+ (NSUserDefaults *)database
++ (NSMutableDictionary *)database
 {
     if(! _database){
-         _database = [NSUserDefaults standardUserDefaults];
+         _database = [[NSMutableDictionary alloc] init];
     }
     return  _database;
 }
 
-+ (void) setDatabase:(NSUserDefaults *) database{
++ (void) setDatabase:(NSMutableDictionary *) database{
      _database =  database;
 }
 @end

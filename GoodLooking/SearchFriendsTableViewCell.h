@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NRGramKit.h"
-@interface SearchFriendsTableViewCell : UITableViewCell
+@interface SearchFriendsTableViewCell : UITableViewCell<UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *imageLabel;
 @property(nonatomic)IGUser *otherUser;

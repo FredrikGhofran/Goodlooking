@@ -168,7 +168,7 @@
 }
 -(void)addMatch
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/addMatch?userID=%@&otherUser=%@",self.myUser.username,self.otherUser.username];
+    NSString *urlString = [NSString stringWithFormat:@"http://fredrikghofran.com/goodlooking/addMatch.php?userID=%@&otherUser=%@",self.myUser.username,self.otherUser.username];
     
     
     NSURL *URL = [NSURL URLWithString:urlString];
@@ -180,10 +180,25 @@
     
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
+        dispatch_async(dispatch_get_main_queue(),^{
+            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Match!" message:@"Match!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            
+            [alertView show];
+           
+        });
         NSLog(@"added match");
     }];
     
     [task resume];
 }
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex ==0){
+        NSLog(@"Do nothing");
+    }else if(buttonIndex == 1){
+        NSLog(@"Send request");
+    }
+}
+
 
 @end
