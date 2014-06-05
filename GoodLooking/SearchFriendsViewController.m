@@ -33,6 +33,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[Database likes] removeAllObjects];
     NSString *token = [[NSUserDefaults standardUserDefaults] objectForKey:@"NSGramKit_access_token"];
     NSLog(@"TOKEN %@",token);
     self.currentNames =[[NSMutableArray alloc]init];
@@ -101,14 +102,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     SearchFriendsTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-   
-    NSLog(@"buliding cells");
-    
+
     if(tableView == self.searchDisplayController.searchResultsTableView){
         NSString *userName = self.searchResult[indexPath.row];
         IGUser *user =self.friendsDictionary[userName][0];
      
-        if([[Database database] objectForKey:user.username]){
+        if([[Database likes] objectForKey:user.username]){
             
             cell.imageButton.image =[UIImage imageNamed:@"heartSmiley"];
         }else{
@@ -125,12 +124,9 @@
         NSString *userName = self.currentNames[indexPath.row];
         IGUser *user =self.friendsDictionary[userName][0];
         cell.otherUser = user;
-        if(cell.addName){
-            [[Database database] setObject:cell.addName forKey:cell.addName];
-            NSLog(@"NAME IN LIST = %@",[[Database database] objectForKey:cell.addName]);
-        }
+     
         
-        if([[Database database] objectForKey:user.username]){
+        if([[Database likes] objectForKey:user.username]){
             
             cell.imageButton.image =[UIImage imageNamed:@"heartSmiley"];
             
@@ -195,8 +191,13 @@
                 NSDictionary *dic = jsonArray[i];
                 
                 NSString *name = dic[@"otherUser"];
+                NSLog(@"name of my like %@",name);
                 
-                [[Database database] setObject:name forKey:name];
+                    [[Database likes] setObject:name forKey:name];
+
+                
+                
+                
             }
             
         }else{

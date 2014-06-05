@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4525F36B193B58D0008F010A /* StartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4525F36A193B58D0008F010A /* StartViewController.m */; };
 		459FFFDC193E7EA900A025EC /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 459FFFDB193E7EA900A025EC /* Database.m */; };
+		45B461BC193FDE5E00674C56 /* MatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45B461BB193FDE5E00674C56 /* MatchViewController.m */; };
 		45B4BC2C1937548F005A7DEC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4BC2B1937548F005A7DEC /* Foundation.framework */; };
 		45B4BC2E1937548F005A7DEC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4BC2D1937548F005A7DEC /* CoreGraphics.framework */; };
 		45B4BC301937548F005A7DEC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45B4BC2F1937548F005A7DEC /* UIKit.framework */; };
@@ -47,6 +48,8 @@
 		4525F36A193B58D0008F010A /* StartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartViewController.m; sourceTree = "<group>"; };
 		459FFFDA193E7EA900A025EC /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
 		459FFFDB193E7EA900A025EC /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
+		45B461BA193FDE5E00674C56 /* MatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchViewController.h; sourceTree = "<group>"; };
+		45B461BB193FDE5E00674C56 /* MatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatchViewController.m; sourceTree = "<group>"; };
 		45B4BC281937548F005A7DEC /* GoodLooking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoodLooking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		45B4BC2B1937548F005A7DEC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		45B4BC2D1937548F005A7DEC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -143,6 +146,8 @@
 				45B4BC3A1937548F005A7DEC /* AppDelegate.h */,
 				45B4BC3B1937548F005A7DEC /* AppDelegate.m */,
 				45B4BC3D1937548F005A7DEC /* Main_iPhone.storyboard */,
+				45B461BA193FDE5E00674C56 /* MatchViewController.h */,
+				45B461BB193FDE5E00674C56 /* MatchViewController.m */,
 				4525F369193B58D0008F010A /* StartViewController.h */,
 				4525F36A193B58D0008F010A /* StartViewController.m */,
 				45B4BC6E1937682B005A7DEC /* LoggedInUser.h */,
@@ -336,6 +341,7 @@
 				4525F36B193B58D0008F010A /* StartViewController.m in Sources */,
 				45B4BC381937548F005A7DEC /* main.m in Sources */,
 				459FFFDC193E7EA900A025EC /* Database.m in Sources */,
+				45B461BC193FDE5E00674C56 /* MatchViewController.m in Sources */,
 				45B4BC6819375FB9005A7DEC /* SearchFriendsTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

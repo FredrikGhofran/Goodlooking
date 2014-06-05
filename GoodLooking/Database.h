@@ -9,7 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface Database : NSObject
-+ (NSMutableDictionary *) database;
-+ (void) setDatabase:(NSMutableDictionary *)database;
++ (NSMutableDictionary *) likes;
++ (void) setLikes:(NSMutableDictionary *)likes;
+
++ (NSMutableArray *) matches;
++ (void) setMatches:(NSMutableArray *)matches;
 
 @end

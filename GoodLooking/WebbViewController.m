@@ -8,6 +8,7 @@
 
 #import "WebbViewController.h"
 #import "LoggedInUser.h"
+#import "Database.h"
 @interface WebbViewController ()
 @property (weak, nonatomic) IBOutlet UIWebView *webbView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
@@ -35,7 +36,8 @@
             [self.spinner startAnimating];
             
         }else{
-            
+           
+
             [self.spinner stopAnimating];
             self.spinner.hidesWhenStopped = YES;
             
@@ -44,6 +46,8 @@
         
     }
              finishedCallback:^(IGUser* user,NSString* error)     {
+                 [[Database matches] removeAllObjects];
+                 [[Database likes] removeAllObjects];
                  [self.spinner startAnimating];
                  NSLog(@"ASD");
                  UITabBarController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"Followers"];

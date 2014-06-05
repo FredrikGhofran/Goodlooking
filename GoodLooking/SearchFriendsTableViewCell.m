@@ -8,6 +8,7 @@
 
 #import "SearchFriendsTableViewCell.h"
 #import "LoggedInUser.h"
+#import "Database.h"
 @interface SearchFriendsTableViewCell ()
 @property(nonatomic)IGUser *myUser;
 @property(nonatomic)BOOL liked;
@@ -47,18 +48,20 @@
     
     
     if(self.imageButton.image == [UIImage imageNamed:@"smilie"]){
-        NSLog(@"You liked %@",self.nameLabel.text);
-        self.addName = self.otherUser.username;
-        NSLog(@"IMAGEBUTTON IMAGE heart");
+        self.imageButton.image = [UIImage imageNamed:@"heartSmiley"];
 
+        NSLog(@"You liked %@",self.nameLabel.text);
+        [[Database likes]setObject:self.otherUser.username forKey:self.otherUser.username];
         [self add];
         [self check];
         
         
     }else{
+        [[Database likes]removeObjectForKey:self.otherUser.username];
+        self.imageButton.image = [UIImage imageNamed:@"smilie"];
+
         NSLog(@"You unliked %@",self.nameLabel.text);
         [self remove];
-        NSLog(@"IMAGEBUTTON IMAGE smile");
 
         
     }
@@ -78,15 +81,7 @@
     
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        dispatch_async(dispatch_get_main_queue(),^{
-        
-        self.imageButton.image = [UIImage imageNamed:@"heartSmiley"];
-            NSLog(@"setting heart image");
-            
-         });
-        
-        
-        NSLog(@"add");
+        NSLog(@"added %@",self.otherUser.username);
     }];
     [task resume];
 }
@@ -102,14 +97,18 @@
     
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
+        
+            NSLog(@"removeing my like");
+             NSLog(@"setting smilie image");
+            NSLog(@"now did %@ get removed",self.otherUser.username);
         dispatch_async(dispatch_get_main_queue(),^{
-            
-            self.imageButton.image = [UIImage imageNamed:@"smilie"];
-            
+
+        self.imageButton.image = [UIImage imageNamed:@"smilie"];
+
         });
+    
         
         
-        NSLog(@"remove");
     }];
     [task resume];
 }
@@ -161,11 +160,19 @@
         NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&parseError];
         NSLog(@"JSONARRAY %@",jsonArray);
         if(jsonArray.count >=1){
-            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Match!" message:@"Match!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            dispatch_async(dispatch_get_main_queue(),^{
+                [self alertMe];
+                NSLog(@"DATABASE MATCHING COUNT IS FIRST %d",[Database matches].count);
+            //TA BORT SEN!!!
+            [[Database matches] addObject:self.otherUser.username];
+            NSLog(@"adding name %@",self.otherUser.username);
+            NSString *added =[Database matches][0];
+            NSLog(@"Database matches added %@",added);
+            //TA BORT SEN!!!
             [self remove];
             [self removeOtherUser];
-            [alertView show];
-
+            });
+                
             NSLog(@"already exsisting match");
         }else{
             NSLog(@"match not exsisting");
@@ -192,10 +199,10 @@
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
         dispatch_async(dispatch_get_main_queue(),^{
-            UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Match!" message:@"Match!" delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+            [self alertMe];
+            [[Database matches] addObject:self.otherUser.username];
             [self remove];
             [self removeOtherUser];
-            [alertView show];
            
         });
         NSLog(@"added match");
@@ -223,17 +230,21 @@
     
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
-        dispatch_async(dispatch_get_main_queue(),^{
-            
-            self.imageButton.image = [UIImage imageNamed:@"smilie"];
-            
-        });
+            NSLog(@"removeing other users like");
+        [[Database likes]removeObjectForKey:self.otherUser.username];
+
+  
         
         
-        NSLog(@"remove");
     }];
     [task resume];
 }
+-(void)alertMe
+{
+      UIAlertView *alertView=[[UIAlertView alloc]initWithTitle:@"Match!" message:[NSString stringWithFormat:@"Match with %@",self.otherUser.username] delegate:self cancelButtonTitle:nil otherButtonTitles:@"Ok", nil];
+    [alertView show];
+    [self reloadInputViews];
 
+}
 
 @end
